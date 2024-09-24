@@ -6,10 +6,13 @@ const bookSchema = new Schema(
 			type: String,
 			required: true,
 		},
-		user: {
-			type: Schema.Types.ObjectId,
-			ref: "User",
-			required: false,
+		author: {
+			type: String,
+			required: true,
+		},
+		publishYear: {
+			type: Number,
+			required: true,
 		},
 	},
 	{
@@ -17,4 +20,4 @@ const bookSchema = new Schema(
 	}
 );
 
-export const Task = model("Task", bookSchema);
+export const Book = model("Book", bookSchema);
