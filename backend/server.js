@@ -6,6 +6,10 @@ dotenv.config();
 
 const app = express();
 
+app.get("/", (req, res) => {
+	res.send("Hello World");
+});
+
 // Server setup
 const port = process.env.PORT || 5555;
 app.listen(port, () => {
