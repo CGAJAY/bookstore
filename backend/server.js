@@ -1,17 +1,20 @@
 import express from "express";
-import dotenv from "dotenv";
+import { connectDB } from "./db/connect.js";
+import { configDotenv } from "dotenv";
+import { booksRouter } from "./routes/bookRoute.js";
 
-// Configure dotenv
-dotenv.config();
+configDotenv(); // Load environment variables from .env
+
+await connectDB(); // connect to the database
 
 const app = express();
 
-app.get("/", (req, res) => {
-	res.send("Hello World");
-});
+app.use(express.json()); // required to parse JSON bodies
+
+app.use("/books", booksRouter);
 
 // Server setup
-const port = process.env.PORT || 5555;
-app.listen(port, () => {
-	console.log(`Server running on port ${port}`);
+const PORT = process.env.PORT || 5555;
+app.listen(PORT, () => {
+	console.log(`Server running on port ${PORT}`);
 });
