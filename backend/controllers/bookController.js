@@ -111,7 +111,7 @@ export const updateBookById = async (req, res) => {
 
 		// Use 'findByIdAndUpdate' to find the book by its ID and update it with the new data
 		// 'new: true' option returns the updated document
-		const updatedBook = await book.findByIdAndUpdate(
+		const updatedBook = await Book.findByIdAndUpdate(
 			id,
 			{ title, author, publishYear },
 			{ new: true }
@@ -136,5 +136,34 @@ export const updateBookById = async (req, res) => {
 			message: "Failed to update the book",
 			error: error.message,
 		});
+	}
+};
+
+// Function to handle the deletion of a book by its ID
+export const deleteBookById = async (req, res) => {
+	try {
+		// Extract the 'id' from the URL parameters
+		const { id } = req.params;
+
+		// Attempt to find and delete the book by its ID from the database
+		const result = await Book.findByIdAndDelete(id);
+
+		// If the book was not found, respond with a 404 error
+		if (!result) {
+			return res
+				.status(404)
+				.send({ message: "Book not found" });
+		}
+
+		// Respond with a success message if the book was deleted
+		res
+			.status(200)
+			.send({ message: "Book deleted successfully" });
+	} catch (error) {
+		// Log the error message to the console
+		console.log(error.message);
+
+		// Respond with a 500 error and the error message
+		res.status(500).send({ message: error.message });
 	}
 };
